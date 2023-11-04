@@ -7,8 +7,55 @@ import MissingList from "./components/MissingList";
 
 const contentful = require('contentful')
 
+type ContentfulImage = {
+  sys: {
+    id: string;
+  };
+  fields: {
+    file: {
+      url: string;
+    }
+  };
+}
+
+type MissingDataFields = {
+  celular: number;
+  colonia: string;
+  fechaDeReporte: string;
+  foto: Array<ContentfulImage>;
+  municipio: string;
+  nombres: Array<string>;
+  encontrado: boolean;
+}
+
+type ContentfulMissingItem = {
+  fields: MissingDataFields;
+}
+
+type ContentfulItem = {
+  sys: {
+    id: string;
+  };
+  items: Array<MissingItem>;
+}
+
+export type ImageItem = {
+  id: string;
+  url: string;
+};
+
+export type MissingItem = {
+  id: string;
+  nombres: Array<string>;
+  celular: number;
+  fotos: Array<ImageItem>;
+  municipio: string;
+  encontrado: boolean;
+  fechaDeReporte: string;
+};
+
 export default function Home() {
-  const [data, setData] = useState<Array<any>>([])
+  const [data, setData] = useState<Array<MissingItem>>([])
 
   useEffect(() => {
     const fn = async () => {
@@ -19,17 +66,26 @@ export default function Home() {
       })
 
       client.getEntries()
-        .then((response: any) => {
-          const items: Array<any> = response.items.map((item: any) => ({
-            id: item.sys.id,
-            celular: item.fields.celular,
-            colonia: item.fields.colonia,
-            fechaDeReporte: item.fields.fechaDeReporte,
-            foto: item.fields.foto,
-            municipio: item.fields.municipio,
-            nombres: item.fields.nombres,
-            encontrado: item.fields.encontrado,
-          }))
+        .then((response: ContentfulItem) => {
+          const items: Array<MissingItem> = response.items.map((item: any) => {
+            const missingItem: MissingItem = {
+              id: item.sys.id,
+              celular: item.fields.celular,
+              fechaDeReporte: item.fields.fechaDeReporte,
+              fotos: item.fields.foto.map((imgObj: ContentfulImage) => {
+                const foto: ImageItem = {
+                  id: imgObj.sys.id,
+                  url: imgObj.fields.file.url,
+                };
+                return foto;
+              }),
+              municipio: item.fields.municipio,
+              nombres: item.fields.nombres,
+              encontrado: item.fields.encontrado,
+            };
+
+            return missingItem;
+          })
 
           setData(items)
         })

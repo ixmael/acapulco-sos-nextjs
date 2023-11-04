@@ -1,4 +1,6 @@
-import Row, { Missing } from "./row"
+import { MissingItem } from "@/app/page";
+
+import Row from "./row"
 
 const MissingList = (props: any) => {
     const {
@@ -31,13 +33,15 @@ const MissingList = (props: any) => {
                         <th scope="col" className="border border-slate-300 px-6 py-3">
                             Encontrado
                         </th>
+                        {/*
                         <th scope="col" className="border border-slate-300 px-6 py-3">
                             &nbsp;
                         </th>
+                        */}
                     </tr>
                 </thead>
                 <tbody>
-                    {list.map((missing: Missing) => (
+                    {list.map((missing: MissingItem) => (
                         <Row key={missing.id} missing={missing} />
                     ))}
                 </tbody>

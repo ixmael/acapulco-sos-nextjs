@@ -1,3 +1,7 @@
+import Image from 'next/image';
+
+import type { MissingItem, ImageItem } from '@/app/page'
+
 export type Missing = {
     contentful_id: string;
     celular: number;
@@ -10,7 +14,7 @@ export type Missing = {
 }
 
 type RowMissing = {
-    missing: Missing,
+    missing: MissingItem,
 }
 
 const Row = (props: RowMissing) => {
@@ -24,19 +28,15 @@ const Row = (props: RowMissing) => {
     }
 
     let imagesViews = (null)
-    if (missing.foto.length > 0) {
-        console.log('fotos', missing.foto)
+    if (missing.fotos.length > 0) {
         imagesViews = (
             <div>
                 <ul>
-                    {missing.foto.map((imageObject: string) => {
-                        console.log('image', imageObject)
-                        return (
-                            <li key={imageObject.sys.id}>
-                                <img src={`https:${imageObject.fields.file.url}`} width="300px" />
-                            </li>
-                        )
-                    })}
+                    {missing.fotos.map((imgObj: ImageItem) => (
+                        <li key={imgObj.id}>
+                            <img src={`https:${imgObj.url}`} width="300px" />
+                        </li>
+                    ))}
                 </ul>
             </div>
         )
@@ -79,11 +79,13 @@ const Row = (props: RowMissing) => {
             <td className="found border border-slate-300">
                 {foundView}
             </td>
+            {/*
             <td className="details border border-slate-300">
                 <a href={`/persona-desaparecida/${missing.id}`}>
                     Ver detalle
                 </a>
             </td>
+            */}
         </tr>
     )
 }
