@@ -28,10 +28,6 @@ type MissingDataFields = {
   encontrado: boolean;
 }
 
-type ContentfulMissingItem = {
-  fields: MissingDataFields;
-}
-
 type ContentfulItem = {
   sys: {
     id: string;
