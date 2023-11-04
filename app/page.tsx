@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const contentful = require('contentful')
 
 export default function Home() {
-  const [data, setData] = useState()
+  const [data, setData] = useState<Array<any>>([])
 
   useEffect(() => {
     const fn = async () => {
@@ -18,16 +18,38 @@ export default function Home() {
       })
 
       client.getEntries()
-        .then((response: any) => console.log(response.items))
-        .catch(console.error)
+        .then((response: any) => {
+          const items: Array<any> = response.items.map((item: any) => ({
+            id: item.sys.id,
+            title: item.fields.titulo,
+          }))
+
+          setData(items)
+        })
+        .catch((err: any) => {
+          console.error(err)
+        })
+        .finally(() => {
+          console.log('finally')
+        })
     }
 
     fn()
   }, [])
 
+  let dataView = (<div>no hay datos</div>)
+  if (data.length > 0) {
+    dataView = (
+      <ul>
+        {data.map((item: any) => (<li key={item.id}>{item.title}</li>))}
+      </ul>
+    )
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      test
+      <h1>Acapulco SOS</h1>
+      {dataView}
     </main>
   )
 }
