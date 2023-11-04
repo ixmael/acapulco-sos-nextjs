@@ -17,11 +17,68 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  padding-bottom: 3rem;
+}
+
+.missing-list {
+}
+
+.missing-list table td,
+.missing-list table td * {
+    vertical-align: top;
+    text-align: center;
+}
+
+.missing-list table tr > td.names {
+    text-align: left;
+}
+
+.missing-list td.details a {
+    text-decoration: underline;
+}
+
+tr:hover {
+    background-color: #f5f3ff;
+}
+
+tr.found > td.reported-at {
+    opacity: 0.5;
+}
+
+tr.found > td.names {}
+
+tr.not-found > td.mobile {
+    opacity: 0.5;
+}
+
+tr.found > td.munipipality {
+    opacity: 0.5;
+}
+
+tr.found > td.images {
+
+}
+
+tr.found > td.found {}
+
+tr.found > td.details {
+    opacity: 0.5;
+}
+
+main.persona-extraviada {}
+
+main.persona-extraviada .item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+main.persona-extraviada .item .key {
+    opacity: 0.3;
+}
+
+main.persona-extraviada .item .value {
+    font-weight: bold;
 }

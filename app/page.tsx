@@ -1,9 +1,10 @@
 'use client'
 
-import { gql } from "@apollo/client";
-import createApolloClient from "../api";
 import { useEffect, useState } from "react";
-// import * as contentful from 'contentful-management'
+
+import HomeLink from "./components/HomeLink";
+import MissingList from "./components/MissingList";
+
 const contentful = require('contentful')
 
 export default function Home() {
@@ -21,7 +22,13 @@ export default function Home() {
         .then((response: any) => {
           const items: Array<any> = response.items.map((item: any) => ({
             id: item.sys.id,
-            title: item.fields.titulo,
+            celular: item.fields.celular,
+            colonia: item.fields.colonia,
+            fechaDeReporte: item.fields.fechaDeReporte,
+            foto: item.fields.foto,
+            municipio: item.fields.municipio,
+            nombres: item.fields.nombres,
+            encontrado: item.fields.encontrado,
           }))
 
           setData(items)
@@ -37,19 +44,10 @@ export default function Home() {
     fn()
   }, [])
 
-  let dataView = (<div>no hay datos</div>)
-  if (data.length > 0) {
-    dataView = (
-      <ul>
-        {data.map((item: any) => (<li key={item.id}>{item.title}</li>))}
-      </ul>
-    )
-  }
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Acapulco SOS</h1>
-      {dataView}
+    <main className="md:container md:mx-auto">
+      <HomeLink />
+      <MissingList list={data} />
     </main>
   )
 }
