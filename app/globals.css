@@ -37,29 +37,52 @@ body {
     text-decoration: underline;
 }
 
-tr:hover {
-    background-color: #f5f3ff;
+tbody tr:hover {
+    background-color: rgba(150, 0, 0, 0.1);
 }
 
-tr.found > td.reported-at {
+tbody tr.found:hover {
+    background-color: transparent;
+}
+
+tbody tr:hover td.names,
+tbody tr:hover td.munipipality,
+tbody tr:hover td.mobile {
+    color: #333;
+    font-weight: bold;
+}
+
+tbody tr.found > td.reported-at {
     opacity: 0.5;
 }
 
-tr.found > td.names {}
+tbody tr.found > td.names {}
 
-tr.not-found > td.mobile {
+tbody tr.found > td.mobile {
     opacity: 0.5;
 }
 
-tr.found > td.munipipality {
+tbody tr.found > td.munipipality {
     opacity: 0.5;
 }
 
-tr.found > td.images {
+tbody tr.found > td.images {
 
 }
 
-tr.found > td.found {}
+tr td {
+    padding: 0.5rem;
+}
+
+tr > td.found {
+    color: rgb(216, 0, 0);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+tr.found > td.found {
+    color: #12ef33;
+}
 
 tr.found > td.details {
     opacity: 0.5;
