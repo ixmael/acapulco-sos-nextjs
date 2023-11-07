@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import settings from '../../conf/environment';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest, response: NextResponse) {
   const requestHeaders = new Headers(request.headers)
   const secret = requestHeaders.get('x-vercel-reval-key')
 
@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
   }
 
-  revalidateTag('')
-  // await res.revalidate('/path-to-revalidate')
+  revalidateTag('/')
+  // await response.revalidate('/')
 
   return NextResponse.json({ revalidated: true, now: Date.now() })
 }
