@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react"
-
-import Row from "./row"
+import Row from "./row";
+import settings from '../../conf/environment';
 
 const contentful = require('contentful')
 
@@ -104,8 +103,8 @@ export async function generateStaticParams() {
 export default async function MissingList() {
     //const MissingList = async () => {
     const client = contentful.createClient({
-        space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string,
-        accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string,
+        space: settings.contentful_space_id,
+        accessToken: settings.contentful_access_token,
         // environment: '<environment_id>', // defaults to 'master' if not set
     })
 
