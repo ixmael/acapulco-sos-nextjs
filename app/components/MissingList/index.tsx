@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from "react"
 
 import Row from "./row"
@@ -47,61 +49,9 @@ export type MissingItem = {
     fechaDeReporte: string;
 };
 
-/*
-export async function generateStaticParams() {
-    // const res = await fetch('https://.../posts')
-    // const posts = await res.json()
-    console.log('getstaticprops')
+export default function MissingList() {
+    const [list, setList] = useState<Array<MissingItem>>([])
 
-    const client = contentful.createClient({
-        space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string,
-        accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string,
-        // environment: '<environment_id>', // defaults to 'master' if not set
-    })
-
-    const list: Array<MissingItem> = client.getEntries()
-        .then((response: ContentfulItem) => {
-            console.log('contentful')
-            return response.items.map((item: any) => {
-                const missingItem: MissingItem = {
-                    id: item.sys.id,
-                    celular: item.fields.celular,
-                    fechaDeReporte: item.fields.fechaDeReporte,
-                    fotos: item.fields.foto.map((imgObj: ContentfulImage) => {
-                        const foto: ImageItem = {
-                            id: imgObj.sys.id,
-                            url: imgObj.fields.file.url,
-                        };
-                        return foto;
-                    }),
-                    municipio: item.fields.municipio,
-                    nombres: item.fields.nombres,
-                    encontrado: item.fields.encontrado,
-                };
-
-                return missingItem;
-            })
-        })
-        .catch((err: any) => {
-            console.error(err)
-        })
-        .finally(() => {
-            console.log('finally')
-        })
-
-    return {
-        props: {
-            list,
-        },
-        // Next.js will attempt to re-generate the page:
-        // - When a request comes in
-        // - At most once every 10 seconds
-        revalidate: 2, // In seconds
-    }
-}
-*/
-
-export default async function MissingList() {
     //const MissingList = async () => {
     const client = contentful.createClient({
         space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string,
@@ -109,36 +59,37 @@ export default async function MissingList() {
         // environment: '<environment_id>', // defaults to 'master' if not set
     })
 
-    const list: Array<MissingItem> = await client.getEntries()
-        .then((response: ContentfulItem) => {
-            console.log('contentful')
-            return response.items.map((item: any) => {
-                const missingItem: MissingItem = {
-                    id: item.sys.id,
-                    celular: item.fields.celular,
-                    fechaDeReporte: item.fields.fechaDeReporte,
-                    fotos: item.fields.foto.map((imgObj: ContentfulImage) => {
-                        const foto: ImageItem = {
-                            id: imgObj.sys.id,
-                            url: imgObj.fields.file.url,
-                        };
-                        return foto;
-                    }),
-                    municipio: item.fields.municipio,
-                    nombres: item.fields.nombres,
-                    encontrado: item.fields.encontrado,
-                };
+    useEffect(() => {
+        client.getEntries()
+            .then((response: ContentfulItem) => {
+                return response.items.map((item: any) => {
+                    const missingItem: MissingItem = {
+                        id: item.sys.id,
+                        celular: item.fields.celular,
+                        fechaDeReporte: item.fields.fechaDeReporte,
+                        fotos: item.fields.foto.map((imgObj: ContentfulImage) => {
+                            const foto: ImageItem = {
+                                id: imgObj.sys.id,
+                                url: imgObj.fields.file.url,
+                            };
+                            return foto;
+                        }),
+                        municipio: item.fields.municipio,
+                        nombres: item.fields.nombres,
+                        encontrado: item.fields.encontrado,
+                    };
 
-                return missingItem;
+                    return missingItem;
+                })
             })
-        })
-        .catch((err: any) => {
-            console.error(err)
-            return []
-        })
-        .finally(() => {
-            console.log('finally')
-        })
+            .then((l: any) => setList(l))
+            .catch((err: any) => {
+                console.error(err)
+                return []
+            })
+            .finally(() => {
+            })
+    }, [])
 
     let dataView = (
         <div>Sin datos</div>
