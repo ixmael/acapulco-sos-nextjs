@@ -50,15 +50,14 @@ export type MissingItem = {
     fechaDeReporte: string;
 };
 
+const client = contentful.createClient({
+    accessToken: settings.contentful_access_token,
+    space: settings.contentful_space_id,
+    // environment: '<environment_id>', // defaults to 'master' if not set
+})
+
 export default function MissingList() {
     const [list, setList] = useState<Array<MissingItem>>([])
-
-    //const MissingList = async () => {
-    const client = contentful.createClient({
-        space: settings.contentful_space_id,
-        accessToken: settings.contentful_access_token,
-        // environment: '<environment_id>', // defaults to 'master' if not set
-    })
 
     useEffect(() => {
         client.getEntries()
@@ -148,5 +147,3 @@ export default function MissingList() {
         </div>
     )
 }
-
-// export default MissingList
