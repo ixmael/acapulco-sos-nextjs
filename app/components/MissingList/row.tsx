@@ -1,6 +1,6 @@
 // import Image from 'next/image';
 
-import type { MissingItem, ImageItem } from './index'
+import type { MissingItem, ImageItem } from './types'
 
 export type Missing = {
     contentful_id: string;
