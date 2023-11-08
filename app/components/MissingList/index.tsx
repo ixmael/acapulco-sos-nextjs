@@ -58,15 +58,12 @@ const client = contentful.createClient({
 
 export default function MissingList() {
     const [list, setList] = useState<Array<MissingItem>>([])
+    const [showAll, setShowAll] = useState<boolean>(false)
 
     useEffect(() => {
         client.getEntries()
             .then((response: ContentfulItem) => {
                 return response.items
-                    .filter((item: any) => {
-                        // filter the entry with found
-                        return !item.fields.encontrado
-                    })
                     .map((item: any) => {
                         const missingItem: MissingItem = {
                             id: item.sys.id,
@@ -95,6 +92,13 @@ export default function MissingList() {
             .finally(() => {
             })
     }, [])
+
+    let filteredList
+    if (!showAll) {
+        filteredList = list.slice().filter((item: MissingItem) => !item.encontrado)
+    } else {
+        filteredList = list.slice()
+    }
 
     let dataView = (
         <div>Sin datos</div>
@@ -130,7 +134,7 @@ export default function MissingList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {list.map((missing: MissingItem) => (
+                    {filteredList.map((missing: MissingItem) => (
                         <Row key={missing.id} missing={missing} />
                     ))}
                 </tbody>
@@ -143,6 +147,15 @@ export default function MissingList() {
             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Listado de personas extraviadas
             </h2>
+            <div className="flex mb-4">
+                <button
+                    type="button"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => setShowAll(!showAll)}
+                >
+                    {showAll ? 'Ocultar personas encontradas' : 'Mostrar personas encontradas'}
+                </button>
+            </div>
             {dataView}
         </div>
     )
