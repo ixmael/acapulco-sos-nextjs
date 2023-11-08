@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 
 import Row from "./row"
 import settings from '../../conf/environment';
+import { useDebounce } from "@/app/hooks/useDebounce";
 
 const contentful = require('contentful')
 
@@ -57,9 +58,17 @@ const client = contentful.createClient({
 })
 
 export default function MissingList() {
-    const [list, setList] = useState<Array<MissingItem>>([])
-    const [showAll, setShowAll] = useState<boolean>(false)
-
+    const [list, setList] = useState<Array<MissingItem>>([]);
+    const [showAll, setShowAll] = useState<boolean>(false);
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [searchResults, setSearchResults] = useState<Array<MissingItem>>([]);
+    const debouncedSearchTerm = useDebounce(searchTerm, 300);
+    
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSearchTerm(value);
+    };
+    
     useEffect(() => {
         client.getEntries()
             .then((response: ContentfulItem) => {
@@ -93,12 +102,23 @@ export default function MissingList() {
             })
     }, [])
 
-    let filteredList
-    if (!showAll) {
-        filteredList = list.slice().filter((item: MissingItem) => !item.encontrado)
-    } else {
-        filteredList = list.slice()
-    }
+    useEffect(() => {
+        if (debouncedSearchTerm.trim() !== "") {
+            const filtered = list.filter((item) => {
+                return item.nombres.some((name) => name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())) || 
+                    item.municipio.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
+            });
+            setSearchResults(filtered);
+        } else {
+            setSearchResults(list);
+        }
+    }, [debouncedSearchTerm, list]);
+
+    const displayedList = searchTerm ? searchResults : list;
+
+    const filteredList = !showAll
+        ? displayedList.filter((item: MissingItem) => !item.encontrado)
+        : displayedList;
 
     let dataView = (
         <div>Sin datos</div>
@@ -147,6 +167,13 @@ export default function MissingList() {
             <h2 className="mb-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 Listado de personas extraviadas
             </h2>
+            <input
+                type="text"
+                className=" w-80 mb-4 p-2 border rounded"
+                placeholder="Buscar por nombre, apellido o municipio"
+                value={searchTerm}
+                onChange={handleSearch}
+            />
             <div className="flex mb-4">
                 <button
                     type="button"
