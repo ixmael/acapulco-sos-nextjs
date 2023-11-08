@@ -1,5 +1,3 @@
-// import Image from 'next/image';
-
 import type { MissingItem, ImageItem } from './types'
 
 export type Missing = {
@@ -34,7 +32,12 @@ const Row = (props: RowMissing) => {
                 <ul>
                     {missing.fotos.map((imgObj: ImageItem) => (
                         <li key={imgObj.id}>
-                            <img src={`https:${imgObj.url}`} width="300px" />
+                            <img
+                                src={`https:${imgObj.url}`}
+                                width={300}
+                                height={300}
+                                alt={missing.nombres.join(', ')}
+                            />
                         </li>
                     ))}
                 </ul>

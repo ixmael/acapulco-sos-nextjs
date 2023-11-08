@@ -14,6 +14,7 @@
     "contentful": "^10.6.5",
     "contentful-management": "^11.4.0",
     "graphql": "^16.8.1",
+    "lottie-react": "^2.4.0",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
