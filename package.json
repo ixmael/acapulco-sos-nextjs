@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.7",
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "contentful": "^10.6.5",
     "contentful-management": "^11.4.0",
     "graphql": "^16.8.1",

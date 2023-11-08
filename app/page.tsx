@@ -1,10 +1,16 @@
+'use client';
+
 import HomeLink from "./components/HomeLink";
 import MissingList from "./components/MissingList";
+import { LoadingAnimation } from "./components/LoadinAnimation";
+import { useLoading } from "./context/LoaderContext";
 
 export default function Home() {
+  const { loading } = useLoading();
   return (
     <main className="md:container md:mx-auto">
       <HomeLink />
+      {loading && <LoadingAnimation />}
       <MissingList />
     </main>
   )
