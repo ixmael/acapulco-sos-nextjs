@@ -62,25 +62,30 @@ export default function MissingList() {
     useEffect(() => {
         client.getEntries()
             .then((response: ContentfulItem) => {
-                return response.items.map((item: any) => {
-                    const missingItem: MissingItem = {
-                        id: item.sys.id,
-                        celular: item.fields.celular,
-                        fechaDeReporte: item.fields.fechaDeReporte,
-                        fotos: item.fields.foto.map((imgObj: ContentfulImage) => {
-                            const foto: ImageItem = {
-                                id: imgObj.sys.id,
-                                url: imgObj.fields.file.url,
-                            };
-                            return foto;
-                        }),
-                        municipio: item.fields.municipio,
-                        nombres: item.fields.nombres,
-                        encontrado: item.fields.encontrado,
-                    };
+                return response.items
+                    .filter((item: any) => {
+                        // filter the entry with found
+                        return !item.fields.encontrado
+                    })
+                    .map((item: any) => {
+                        const missingItem: MissingItem = {
+                            id: item.sys.id,
+                            celular: item.fields.celular,
+                            fechaDeReporte: item.fields.fechaDeReporte,
+                            fotos: item.fields.foto.map((imgObj: ContentfulImage) => {
+                                const foto: ImageItem = {
+                                    id: imgObj.sys.id,
+                                    url: imgObj.fields.file.url,
+                                };
+                                return foto;
+                            }),
+                            municipio: item.fields.municipio,
+                            nombres: item.fields.nombres,
+                            encontrado: item.fields.encontrado,
+                        };
 
-                    return missingItem;
-                })
+                        return missingItem;
+                    })
             })
             .then((l: any) => setList(l))
             .catch((err: any) => {
