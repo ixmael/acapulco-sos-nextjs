@@ -19,7 +19,7 @@ export default function MissingList() {
     const { setLoading } = useLoading();
     const [list, setList] = useState<Array<MissingItem>>([]);
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    const [showAll, setShowAll] = useState<boolean>(false);
+    const [showFound, setShowFound] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [searchResults, setSearchResults] = useState<Array<MissingItem>>([]);
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -74,7 +74,10 @@ export default function MissingList() {
         }
     }, [debouncedSearchTerm, list]);
 
-    const displayedList = searchTerm ? searchResults : list;
+    const foundList = list.filter((item) => item.encontrado);
+    const missingList = list.filter((item) => !item.encontrado);
+
+    const displayedList = searchTerm ? searchResults : showFound ? foundList : missingList;
 
     if (isLoaded) {
         return (
@@ -93,12 +96,12 @@ export default function MissingList() {
                     <button
                         type="button"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => setShowAll(!showAll)}
+                        onClick={() => setShowFound(!showFound)}
                     >
-                        {showAll ? 'Ocultar personas encontradas' : 'Mostrar personas encontradas'}
+                        { showFound ? 'Ocultar personas encontradas' : 'Mostrar personas encontradas'}
                     </button>
                 </div>
-                    <MissingTable list={displayedList} showAll={showAll} />
+                <MissingTable list={displayedList} showFound={showFound} />
             </div>
     )
     }
