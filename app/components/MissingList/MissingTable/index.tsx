@@ -5,11 +5,11 @@ import { MissingItem } from "../types";
 
 type MissingTableProps = {
     list: Array<MissingItem>;
-    showAll: boolean;
+    showFound: boolean;
 };
 
-export const MissingTable: React.FC<MissingTableProps> = ({ list, showAll }) => {
-    const filteredList = !showAll
+export const MissingTable: React.FC<MissingTableProps> = ({ list, showFound }) => {
+    const filteredList = !showFound
         ? list.filter((item: MissingItem) => !item.encontrado)
         : list;
 
