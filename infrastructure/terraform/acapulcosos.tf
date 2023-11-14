@@ -22,6 +22,12 @@ resource "docker_image" "frontend" {
     path       = abspath(path.cwd)
     dockerfile = "./infrastructure/docker/acapulcosos.dockerfile"
 
+    build_arg = {
+      UPDATE_TOKEN : var.update_token,
+      NEXT_PUBLIC_CONTENTFUL_SPACE_ID : var.spaceid,
+      NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN : var.access_token,
+    }
+
     tag = [
       "${var.environment}"
     ]
