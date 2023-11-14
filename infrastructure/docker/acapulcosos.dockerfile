@@ -12,7 +12,10 @@ COPY next.config.js ./
 COPY postcss.config.js ./
 COPY tailwind.config.ts ./
 COPY tsconfig.json ./
-COPY .env ./
+
+ARG UPDATE_TOKEN
+ARG NEXT_PUBLIC_CONTENTFUL_SPACE_ID
+ARG NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN
 
 RUN npm run build
 
