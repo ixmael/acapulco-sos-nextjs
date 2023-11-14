@@ -35,6 +35,9 @@ export const MissingTable: React.FC<MissingTableProps> = ({ list, showFound }) =
                     <th scope="col" className="border border-slate-300 px-6 py-3">
                         Encontrado
                     </th>
+                    <th scope="col" className="border border-slate-300 px-6 py-3">
+                        &nbsp;
+                    </th>
                 </tr>
             </thead>
             <tbody>

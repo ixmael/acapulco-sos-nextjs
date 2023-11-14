@@ -105,3 +105,42 @@ main.persona-extraviada .item .key {
 main.persona-extraviada .item .value {
     font-weight: bold;
 }
+
+#persona-extraviada ul.names {
+    margin-bottom: 1rem;
+}
+
+#persona-extraviada div.position {
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+#persona-extraviada div.position > div {
+    margin-right: 1rem;
+}
+
+#persona-extraviada div.position > div:last-child {
+    margin-right: 0;
+}
+
+#persona-extraviada div.telefono {
+    margin-bottom: 1rem;
+}
+
+#persona-extraviada div.fecha {
+    margin-bottom: 1rem;
+}
+
+#persona-extraviada div.estado {
+    margin-bottom: 1rem;
+}
+
+#persona-extraviada div.estado.not-found {
+    color:rgb(216, 0, 0)
+}
+
+div.not-found {
+    background-color: rgba(150, 0, 0, 0.1);
+    padding: 1rem;
+}

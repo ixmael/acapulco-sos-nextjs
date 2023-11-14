@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import type { MissingItem, ImageItem } from './types'
 
 export type Missing = {
@@ -82,13 +84,13 @@ const Row = (props: RowMissing) => {
             <td className="found border border-slate-300">
                 {foundView}
             </td>
-            {/*
             <td className="details border border-slate-300">
-                <a href={`/persona-desaparecida/${missing.id}`}>
-                    Ver detalle
-                </a>
+                <Link
+                    href={`/persona-extraviada/${missing.id}`}
+                >
+                    Más información
+                </Link>
             </td>
-            */}
         </tr>
     )
 }
